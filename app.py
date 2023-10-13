@@ -8,7 +8,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
-base_src = '/Users/siyoung/Downloads'
+base_src = '/home/ubuntu/FlaskServer'
 rating_src = os.path.join(base_src, 'Rating.csv')
 u_cols = ['user_id', 'work_id', 'rating']
 ratings = pd.read_csv(rating_src,
@@ -22,7 +22,7 @@ ratings = ratings.set_index('user_id')
 ratings = ratings.drop('user_id', axis=0)
 ratings.head()
 
-base_src = '/Users/siyoung/Downloads'
+base_src = '/home/ubuntu/FlaskServer'
 movie_src = os.path.join(base_src,'Movie.csv')
 i_cols = ['work_id',
           'sf','action','adult','adventure','animation','comedy', 'criminal','documentary','drama','family ','fantasy',
