@@ -3,6 +3,8 @@ import os
 import numpy as np
 import pandas as pd
 import requests
+import csv
+from io import StringIO
 from flask import Flask, request, jsonify
 from sklearn.metrics.pairwise import cosine_similarity
 
@@ -102,9 +104,19 @@ def recom_movie_by_CF_knn(user_id,n_items,neighbors_size=30):
 
 @app.route("/spring", methods=['POST'])
 def spring():
-    data_from_spring = request.data.decode('utf-8') # POST 요청에서 userId 추출
-    userId = int(data_from_spring)
-    print(userId)
+    # data_from_spring = request.data.decode('utf-8') # POST 요청에서 userId 추출
+    # userId = int(data_from_spring)
+    # print(userId)
+    data_from_spring = request.get_json()
+    userId = data_from_spring[0]
+    csvContent = data_from_spring[1]
+    csv_file = StringIO(csvContent);
+    with open("/home/ubuntu/FlaskServer/Rating.csv", "w", newline="") as output_file:
+        reader = csv.reader(csv_file)
+        writer = csv.writer(output_file)
+
+        for row in reader:
+            writer.writerow(row)
 
     recommendations = recom_movie_by_CF_knn(user_id=str(userId), n_items= 10, neighbors_size=30)
     index_array = recommendations.index.to_numpy()
